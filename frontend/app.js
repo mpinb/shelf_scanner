@@ -118,7 +118,9 @@ function triggerHaptic(type = "light") {
 // --- PWA Service Worker Registration (Item 1) ---
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(err => {
+    navigator.serviceWorker.register("/sw.js").then((reg) => {
+      if (reg) reg.update();
+    }).catch(err => {
       console.log("PWA Service Worker note:", err);
     });
   });

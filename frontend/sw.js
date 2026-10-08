@@ -1,9 +1,9 @@
 // Service Worker for ShelfScanner PWA
-const CACHE_NAME = "shelfscanner-v1";
+const CACHE_NAME = "shelfscanner-v3";
 const STATIC_ASSETS = [
   "/",
-  "/static/styles.css",
-  "/static/app.js",
+  "/static/styles.css?v=3",
+  "/static/app.js?v=3",
   "/static/supabase.min.js",
   "/favicon.svg",
   "/manifest.json",
@@ -13,20 +13,22 @@ const STATIC_ASSETS = [
 
 // Install: pre-cache application shell
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate: purge stale cache versions
+// Activate: purge stale cache versions immediately
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log("[SW] Deleting stale cache:", key);
             return caches.delete(key);
           }
         })
@@ -35,7 +37,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch: network-first for /api/, cache-first/stale-while-revalidate for static assets
+// Fetch: network-first for all assets to prevent stale code, falling back to cache if offline
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
@@ -44,11 +46,10 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Handle static assets & navigation
+  // Network-first strategy
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // Fetch from network in parallel to keep cache fresh
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
+    fetch(event.request)
+      .then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -56,14 +57,9 @@ self.addEventListener("fetch", (event) => {
           });
         }
         return networkResponse;
-      }).catch(() => {
-        // If offline and requesting navigation, return cached root
-        if (event.request.mode === "navigate") {
-          return caches.match("/");
-        }
-      });
-
-      return cachedResponse || fetchPromise;
-    })
+      })
+      .catch(() => {
+        return caches.match(event.request);
+      })
   );
 });
