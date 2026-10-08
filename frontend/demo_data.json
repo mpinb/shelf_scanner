@@ -1,0 +1,1638 @@
+[
+  {
+    "id": "demo-1",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 1,
+    "title": "Biochemistry Labfax",
+    "authors": "J. A. A. Chambers, D. Rickwood",
+    "publication": "BIOS; Blackwell",
+    "pub_year": 1993,
+    "isbn_primary": "9781483294445",
+    "isbns": [
+      "9781483294445",
+      "9781872748207",
+      "1483294447",
+      "1872748201"
+    ],
+    "subjects": "Biochemistry, Handbooks, manuals",
+    "raw_text": "BIOCHEMISTRY LABFAX\nJ.A.A. CHAMBERS & D. RICKWOOD\nMPG-ASMB 46076 100\nBios\nBLACKWELL",
+    "is_ignored": false,
+    "ol_title": "Biochemistry labfax",
+    "ol_authors": "D. Rickwood",
+    "polygon_coords": [
+      [
+        149,
+        912
+      ],
+      [
+        250,
+        914
+      ],
+      [
+        274,
+        1852
+      ],
+      [
+        129,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-2",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 2,
+    "title": "Elektrophorese-Praktikum",
+    "authors": "Reiner Westermeier",
+    "publication": "Wiley & Sons, Incorporated, John, Wiley & Sons, Limited, John",
+    "pub_year": 2016,
+    "isbn_primary": "9783527338924",
+    "isbns": [
+      "9783527338924",
+      "9783527695133",
+      "9783527695140",
+      "9783527695157",
+      "9783527808496",
+      "3527338926",
+      "3527695133",
+      "3527695141",
+      "352769515X",
+      "3527808493"
+    ],
+    "subjects": "",
+    "raw_text": "Reiner Westermeier\nElektrophorese-Praktikum\n245",
+    "is_ignored": false,
+    "ol_title": "Elektrophorese Leicht Gemacht",
+    "ol_authors": "Reiner Westermeier",
+    "polygon_coords": [
+      [
+        283,
+        951
+      ],
+      [
+        356,
+        955
+      ],
+      [
+        359,
+        1852
+      ],
+      [
+        274,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-3",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 3,
+    "title": "Gene und Klone",
+    "authors": "VCH",
+    "publication": "Wiley-VCH",
+    "pub_year": 1990,
+    "isbn_primary": "9783527282357",
+    "isbns": [
+      "9783527282357",
+      "3527282351"
+    ],
+    "subjects": "",
+    "raw_text": "Gene und Klone",
+    "is_ignored": false,
+    "ol_title": "Gene Und Klone Eine Einfuhrung in Die Gentechnologie A1n3er1",
+    "ol_authors": "VCH",
+    "polygon_coords": [
+      [
+        358,
+        954
+      ],
+      [
+        418,
+        956
+      ],
+      [
+        426,
+        1852
+      ],
+      [
+        359,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-4",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 4,
+    "title": "Book #4",
+    "authors": "",
+    "publication": "",
+    "pub_year": null,
+    "isbn_primary": "",
+    "isbns": [],
+    "subjects": "",
+    "raw_text": "MPG-ASMB\n033\n047",
+    "is_ignored": false,
+    "ol_title": "",
+    "ol_authors": "",
+    "polygon_coords": [
+      [
+        420,
+        822
+      ],
+      [
+        478,
+        826
+      ],
+      [
+        506,
+        1853
+      ],
+      [
+        426,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-5",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 5,
+    "title": "Nonisotopic DNA Probe Techniques",
+    "authors": "Larry J. Kricka",
+    "publication": "Academic Press",
+    "pub_year": 1992,
+    "isbn_primary": "9780124262959",
+    "isbns": [
+      "9780124262959",
+      "9780124262966",
+      "0124262953",
+      "0124262961"
+    ],
+    "subjects": "Nucleic Acid Hybridization, Biochemie, Analyse, Markierung, DNA probes, Methode, DNS, Chemische Analyse",
+    "raw_text": "Nonisotopic DNA Probe Techniques\nMPG ASMB\n300\n339",
+    "is_ignored": false,
+    "ol_title": "Nonisotopic DNA probe techniques",
+    "ol_authors": "Larry J. Kricka",
+    "polygon_coords": [
+      [
+        510,
+        983
+      ],
+      [
+        579,
+        989
+      ],
+      [
+        602,
+        1853
+      ],
+      [
+        506,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-6",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 6,
+    "title": "Current Protocols",
+    "authors": "Frederick M. Ausubel",
+    "publication": "Academic Press",
+    "pub_year": 2002,
+    "isbn_primary": "9780471250920",
+    "isbns": [
+      "9780471250920",
+      "0471250929"
+    ],
+    "subjects": "Technique, Laboratory manuals, Molecular biology, Molecular Biology, Methods, Biologie mol\u00e9culaire, Manuels de laboratoire, Biologia molecular",
+    "raw_text": "Current Protocols\nAcademic Press",
+    "is_ignored": false,
+    "ol_title": "Short protocols in molecular biology",
+    "ol_authors": "Frederick M. Ausubel",
+    "polygon_coords": [
+      [
+        588,
+        986
+      ],
+      [
+        656,
+        985
+      ],
+      [
+        678,
+        1852
+      ],
+      [
+        602,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-7",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 7,
+    "title": "Genetik",
+    "authors": "Bresch, Hausmann",
+    "publication": "Springer, Springer-Verlag",
+    "pub_year": 1964,
+    "isbn_primary": "9783540032656",
+    "isbns": [
+      "9783540032656",
+      "9783540058021",
+      "3540032657",
+      "3540058028"
+    ],
+    "subjects": "Genetics, Molecular genetics, Genetica",
+    "raw_text": "Bresch\nHausmann\nGenetik\n3. Auflage",
+    "is_ignored": false,
+    "ol_title": "Klassische und molekulare Genetik",
+    "ol_authors": "Carsten Bresch",
+    "polygon_coords": [
+      [
+        656,
+        963
+      ],
+      [
+        745,
+        960
+      ],
+      [
+        773,
+        1852
+      ],
+      [
+        678,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-8",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 8,
+    "title": "Maximizing Gene Expression",
+    "authors": "Reznikoff, Gold",
+    "publication": "Butterworths, Elsevier Science & Technology Books",
+    "pub_year": 1986,
+    "isbn_primary": "9780409900279",
+    "isbns": [
+      "9780409900279",
+      "9781483100807",
+      "0409900273",
+      "1483100804"
+    ],
+    "subjects": "Cells, Gene expression, Gene Expression Regulation, Eukaryotic Cells, Prokaryotic Cells",
+    "raw_text": "Reznikoff \u2022 Gold\nMaximizing Gene Expression\nMPG-ASMB\n031\n149",
+    "is_ignored": false,
+    "ol_title": "Maximizing gene expression",
+    "ol_authors": "William S. Reznikoff, Larry Gold",
+    "polygon_coords": [
+      [
+        751,
+        959
+      ],
+      [
+        839,
+        962
+      ],
+      [
+        864,
+        1853
+      ],
+      [
+        773,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-9",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 9,
+    "title": "Viral Vectors",
+    "authors": "Kaplitt, Loewy",
+    "publication": "Academic Press",
+    "pub_year": 1995,
+    "isbn_primary": "9780123975706",
+    "isbns": [
+      "9780123975706",
+      "9780123975713",
+      "0123975700",
+      "0123975719"
+    ],
+    "subjects": "Genetics, Diseases, Genetic Vectors, Viral Genes, Gene therapy, Central Nervous System Diseases, Viruses, Central nervous system",
+    "raw_text": "KAPLITT\nLOEWY\nVIRAL VECTORS\nMPG-ASMB\n480\n300",
+    "is_ignored": false,
+    "ol_title": "Viral vectors",
+    "ol_authors": "Michael G Kaplitt, Arthur D Loewy",
+    "polygon_coords": [
+      [
+        845,
+        987
+      ],
+      [
+        921,
+        990
+      ],
+      [
+        963,
+        1854
+      ],
+      [
+        864,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-10",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 10,
+    "title": "Motility Assays for Motor Proteins",
+    "authors": "Jonathan M. Scholey",
+    "publication": "Academic Press",
+    "pub_year": 1993,
+    "isbn_primary": "9780080859378",
+    "isbns": [
+      "9780080859378",
+      "0080859372"
+    ],
+    "subjects": "",
+    "raw_text": "Methods in Cell Biology\nMotility Assays for Motor Proteins\n39\nASCB\nMPG-ASMB\n377\n300\nACADEMIC PRESS",
+    "is_ignored": false,
+    "ol_title": "Motility Assays for Motor Proteins",
+    "ol_authors": "Jonathan M. Scholey",
+    "polygon_coords": [
+      [
+        934,
+        959
+      ],
+      [
+        1003,
+        963
+      ],
+      [
+        1036,
+        1856
+      ],
+      [
+        963,
+        1854
+      ]
+    ]
+  },
+  {
+    "id": "demo-11",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 11,
+    "title": "Kinesin Protocols",
+    "authors": "Vernos",
+    "publication": "Humana",
+    "pub_year": 2001,
+    "isbn_primary": "9780896037663",
+    "isbns": [
+      "9780896037663",
+      "9781592590698",
+      "9781617371783",
+      "0896037665",
+      "1592590691",
+      "1617371785"
+    ],
+    "subjects": "Kinesin, Laboratory manuals, Cellular biology, Genetics (non-medical), Molecular biology, Scientific equipment & techniques, laboratory equipment, Science, Proteins",
+    "raw_text": "Vernos\nKinesin Protocols\nHumana",
+    "is_ignored": false,
+    "ol_title": "Kinesin Protocols",
+    "ol_authors": "Isabelle Vernos",
+    "polygon_coords": [
+      [
+        1006,
+        974
+      ],
+      [
+        1084,
+        976
+      ],
+      [
+        1118,
+        1856
+      ],
+      [
+        1036,
+        1856
+      ]
+    ]
+  },
+  {
+    "id": "demo-12",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 12,
+    "title": "In Situ Hybridization Protocols",
+    "authors": "Wisden, Morris",
+    "publication": "Elsevier Science & Technology Books, Academic, Academic Press",
+    "pub_year": 1994,
+    "isbn_primary": "9780080918891",
+    "isbns": [
+      "9780080918891",
+      "9780127599199",
+      "9780127599205",
+      "0080918891",
+      "0127599193",
+      "0127599207"
+    ],
+    "subjects": "Brain, Cytology, Methods, Molecular aspects, Gene expression, In Situ Hybridization, Brain chemistry, Technique",
+    "raw_text": "Wisden and Morris\nIn Situ Hybridization Protocols (2nd ed.)\n458\n300",
+    "is_ignored": false,
+    "ol_title": "In situ hybridization protocols for the brain",
+    "ol_authors": "B. J. Morris",
+    "polygon_coords": [
+      [
+        1087,
+        907
+      ],
+      [
+        1117,
+        908
+      ],
+      [
+        1172,
+        1857
+      ],
+      [
+        1118,
+        1856
+      ]
+    ]
+  },
+  {
+    "id": "demo-13",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 13,
+    "title": "Microtubule Proteins",
+    "authors": "Jesus Avila",
+    "publication": "CRC Press",
+    "pub_year": 2017,
+    "isbn_primary": "9781315895543",
+    "isbns": [
+      "9781315895543",
+      "9781351074643",
+      "9781351083096",
+      "9781351091541",
+      "9781351099998",
+      "1315895544",
+      "1351074644",
+      "1351083090",
+      "1351091549",
+      "135109999X"
+    ],
+    "subjects": "Tubulins, Microtubule Proteins, Tubulines, SCIENCE, Life Sciences, Biochemistry, Mikrotubulus, Proteine",
+    "raw_text": "MICROTUBULE PROTEINS\nCRC\nPRESS",
+    "is_ignored": false,
+    "ol_title": "Microtubule Proteins",
+    "ol_authors": "Jesus Avila",
+    "polygon_coords": [
+      [
+        1119,
+        878
+      ],
+      [
+        1196,
+        880
+      ],
+      [
+        1240,
+        1858
+      ],
+      [
+        1172,
+        1857
+      ]
+    ]
+  },
+  {
+    "id": "demo-14",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 14,
+    "title": "The Yeast Two-Hybrid System",
+    "authors": "Bartel, Fields",
+    "publication": "Oxford",
+    "pub_year": 1997,
+    "isbn_primary": "9780195109382",
+    "isbns": [
+      "9780195109382",
+      "0195109384"
+    ],
+    "subjects": "Fungi, Plasmids, Protein binding, Methodology, Yeast fungi, Research, Binding",
+    "raw_text": "BARTEL AND FIELDS\nTHE YEAST TWO-HYBRID SYSTEM\nMPG-ASMB\n767\n300\nOXFORD",
+    "is_ignored": false,
+    "ol_title": "Yeast Two-Hybrid System",
+    "ol_authors": "Stanley Fields",
+    "polygon_coords": [
+      [
+        1204,
+        978
+      ],
+      [
+        1267,
+        977
+      ],
+      [
+        1310,
+        1857
+      ],
+      [
+        1240,
+        1858
+      ]
+    ]
+  },
+  {
+    "id": "demo-15",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 15,
+    "title": "Molecular Biology of the Cytoskeleton",
+    "authors": "Bruce Alberts, Alexander Johnson, Julian Lewis, David O Morgan, Martin Raff, Julian Lewis, Keith Roberts, Peter Walter, Alexander D. Johnson",
+    "publication": "Norton & Company, Incorporated, W. W., Garland Science, NCBI",
+    "pub_year": 1983,
+    "isbn_primary": "9780203833445",
+    "isbns": [
+      "9780203833445",
+      "9780393884821",
+      "9780393884845",
+      "9780393884852",
+      "9780815316190",
+      "9780815316206",
+      "9780815332183",
+      "9780815332879",
+      "9780815338314",
+      "9780815340690",
+      "9780815340720",
+      "9780815341055",
+      "9780815341062",
+      "9780815341116",
+      "9780815344322"
+    ],
+    "subjects": "biology, cells, cell biology, textbook, nonfiction, reference work, Amino Acids, Cytology",
+    "raw_text": "MOLECULAR BIOLOGY OF THE CYTOSKELETON\nMPG-ASMB\n033\n046",
+    "is_ignored": false,
+    "ol_title": "Molecular Biology of the Cell",
+    "ol_authors": "Bruce Alberts, Alexander Johnson, Julian Lewis, David O Morgan, Martin Raff, Julian Lewis, Keith Roberts, Peter Walter, Alexander D. Johnson",
+    "polygon_coords": [
+      [
+        1269,
+        977
+      ],
+      [
+        1402,
+        977
+      ],
+      [
+        1437,
+        1857
+      ],
+      [
+        1310,
+        1857
+      ]
+    ]
+  },
+  {
+    "id": "demo-16",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 16,
+    "title": "Cytoskeletal and Motor Proteins",
+    "authors": "Kreis, Vale",
+    "publication": "OUP, Oxford University Press",
+    "pub_year": 1993,
+    "isbn_primary": "9780198599319",
+    "isbns": [
+      "9780198599319",
+      "9780198599326",
+      "0198599315",
+      "0198599323"
+    ],
+    "subjects": "Cytoskeletal Proteins, Muscle Proteins, Tubulins, Cytoskeleton, Proteins",
+    "raw_text": "KREIS & VALE\nCYTOSKELETAL AND MOTOR PROTEINS\nMPG-ASMB\n384\n300\nGUIDE BOOK SERIES",
+    "is_ignored": false,
+    "ol_title": "Guidebook to the cytoskeletal and motor proteins",
+    "ol_authors": "Thomas Kreis",
+    "polygon_coords": [
+      [
+        1405,
+        939
+      ],
+      [
+        1477,
+        938
+      ],
+      [
+        1518,
+        1856
+      ],
+      [
+        1437,
+        1857
+      ]
+    ]
+  },
+  {
+    "id": "demo-17",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 17,
+    "title": "Mobility and Function in Proteins and Nucleic Acids",
+    "authors": "Ruth Porter, Maeve O'Connor, Julie Whelan",
+    "publication": "Pitman",
+    "pub_year": 1983,
+    "isbn_primary": "9780471910626",
+    "isbns": [
+      "9780471910626",
+      "0471910627"
+    ],
+    "subjects": "Proteins, Nucleic acids",
+    "raw_text": "Ciba Foundation\nMobility and function in proteins and nucleic acids\n93\nPitman",
+    "is_ignored": false,
+    "ol_title": "Mobility and Function in Protein and Nucleic Acids. Ciba Foundation Symposium No.93",
+    "ol_authors": "CIBA Foundation Symposium",
+    "polygon_coords": [
+      [
+        1484,
+        983
+      ],
+      [
+        1573,
+        983
+      ],
+      [
+        1606,
+        1856
+      ],
+      [
+        1518,
+        1856
+      ]
+    ]
+  },
+  {
+    "id": "demo-18",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 18,
+    "title": "Topics in Nucleic Acid Structure",
+    "authors": "Neidle",
+    "publication": "Macmillan, Palgrave Macmillan",
+    "pub_year": 1981,
+    "isbn_primary": "9780333266786",
+    "isbns": [
+      "9780333266786",
+      "9781349046911",
+      "9781349046935",
+      "9781349060078",
+      "9781349063789",
+      "9781349063802",
+      "0333266781",
+      "1349046914",
+      "1349046930",
+      "1349060070",
+      "1349063789",
+      "1349063800"
+    ],
+    "subjects": "Nucleic acids",
+    "raw_text": "NEIDLE\nTopics in Nucleic Acid Structure\nMPI\nHeidelberg",
+    "is_ignored": false,
+    "ol_title": "Topics in nucleic acid structure",
+    "ol_authors": "Stephen Neidle",
+    "polygon_coords": [
+      [
+        1576,
+        957
+      ],
+      [
+        1640,
+        955
+      ],
+      [
+        1675,
+        1856
+      ],
+      [
+        1606,
+        1856
+      ]
+    ]
+  },
+  {
+    "id": "demo-19",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 19,
+    "title": "Book #19",
+    "authors": "",
+    "publication": "",
+    "pub_year": null,
+    "isbn_primary": "",
+    "isbns": [],
+    "subjects": "",
+    "raw_text": "",
+    "is_ignored": false,
+    "ol_title": "",
+    "ol_authors": "",
+    "polygon_coords": [
+      [
+        1643,
+        1009
+      ],
+      [
+        1796,
+        1007
+      ],
+      [
+        1828,
+        1855
+      ],
+      [
+        1675,
+        1856
+      ]
+    ]
+  },
+  {
+    "id": "demo-20",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 20,
+    "title": "Dynamic Aspects of Microtubule Biology",
+    "authors": "",
+    "publication": "New York Academy of Sciences",
+    "pub_year": 1986,
+    "isbn_primary": "9780897663274",
+    "isbns": [
+      "9780897663274",
+      "9780897663281",
+      "0897663276",
+      "0897663284"
+    ],
+    "subjects": "Microtubules, Congresses",
+    "raw_text": "Dynamic Aspects of Microtubule Biology\nMPG-ASMB\nANN. N.Y. ACAD. SCI. VOL. 466",
+    "is_ignored": false,
+    "ol_title": "Dynamic aspects of microtubule biology",
+    "ol_authors": "",
+    "polygon_coords": [
+      [
+        1800,
+        1009
+      ],
+      [
+        1965,
+        1007
+      ],
+      [
+        2000,
+        1854
+      ],
+      [
+        1828,
+        1855
+      ]
+    ]
+  },
+  {
+    "id": "demo-21",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 21,
+    "title": "Dynamic Aspects of Microtubule Biology",
+    "authors": "",
+    "publication": "New York Academy of Sciences",
+    "pub_year": 1986,
+    "isbn_primary": "9780897663274",
+    "isbns": [
+      "9780897663274",
+      "9780897663281",
+      "0897663276",
+      "0897663284"
+    ],
+    "subjects": "Microtubules, Congresses",
+    "raw_text": "Dynamic Aspects of Microtubule Biology\nANN. N.Y. ACAD.\nMPG\nMandelkow",
+    "is_ignored": false,
+    "ol_title": "Dynamic aspects of microtubule biology",
+    "ol_authors": "",
+    "polygon_coords": [
+      [
+        1968,
+        1009
+      ],
+      [
+        2134,
+        1006
+      ],
+      [
+        2176,
+        1853
+      ],
+      [
+        2000,
+        1854
+      ]
+    ]
+  },
+  {
+    "id": "demo-22",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 22,
+    "title": "Cellular Regulation by Protein Phosphorylation",
+    "authors": "L. M. G. Heilmeyer, Jr.",
+    "publication": "Springer London, Limited",
+    "pub_year": 2011,
+    "isbn_primary": "9783642751424",
+    "isbns": [
+      "9783642751424",
+      "9783642751448",
+      "3642751423",
+      "364275144X"
+    ],
+    "subjects": "Proteins, synthesis, Phosphorylation, Cellular signal transduction, Enzymes",
+    "raw_text": "ASI\nL.M.G. Heilmeyer, Jr.\nCellular Regulation by Protein Phosphorylation\nMPG-ASMB\n274\n300\nH56",
+    "is_ignored": false,
+    "ol_title": "Cellular Regulation by Protein Phosphorylation",
+    "ol_authors": "L. M. G. Jr Heilmeyer",
+    "polygon_coords": [
+      [
+        2132,
+        939
+      ],
+      [
+        2218,
+        936
+      ],
+      [
+        2265,
+        1853
+      ],
+      [
+        2176,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-23",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 23,
+    "title": "Protein Phosphorylation",
+    "authors": "Hardie",
+    "publication": "IRL Press",
+    "pub_year": 1999,
+    "isbn_primary": "9780199637287",
+    "isbns": [
+      "9780199637287",
+      "9780199637294",
+      "9781280375675",
+      "0199637288",
+      "0199637296",
+      "1280375671"
+    ],
+    "subjects": "Prote\u00efne-fosfatasen, Protein kinases, Eiwitkinasen, Phosphoproteins, Prot\u00e9ines, Phosphorylation, Proteine, Phosphoprot\u00e9ines",
+    "raw_text": "HARDIE\nProtein Phosphorylation\nIRL PRESS\nMPG-ASMB\n410\n300\n123",
+    "is_ignored": false,
+    "ol_title": "Protein Phosphorylation",
+    "ol_authors": "D. G. Hardie",
+    "polygon_coords": [
+      [
+        2222,
+        991
+      ],
+      [
+        2295,
+        988
+      ],
+      [
+        2344,
+        1852
+      ],
+      [
+        2265,
+        1853
+      ]
+    ]
+  },
+  {
+    "id": "demo-24",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 24,
+    "title": "Fibrous Protein Structure",
+    "authors": "Squire, Vibert",
+    "publication": "Academic Press",
+    "pub_year": 1987,
+    "isbn_primary": "9780126602456",
+    "isbns": [
+      "9780126602456",
+      "012660245X"
+    ],
+    "subjects": "Proteins, Structure, Protein Conformation, Analysis",
+    "raw_text": "SQUIRE\nVIBERT\nFIBROUS PROTEIN STRUCTURE\nMPG-ASMB\n033\n175\nAP",
+    "is_ignored": false,
+    "ol_title": "Fibrous protein structure",
+    "ol_authors": "Squire, John",
+    "polygon_coords": [
+      [
+        2297,
+        985
+      ],
+      [
+        2412,
+        985
+      ],
+      [
+        2458,
+        1852
+      ],
+      [
+        2344,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-25",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 25,
+    "title": "Gel Electrophoresis of Proteins",
+    "authors": "Hames, Rickwood",
+    "publication": "IRL Press",
+    "pub_year": 1990,
+    "isbn_primary": "9780199630745",
+    "isbns": [
+      "9780199630745",
+      "9780199630752",
+      "0199630747",
+      "0199630755"
+    ],
+    "subjects": "Gel electrophoresis, Proteins, Analysis, Polyacrylamide gel electrophoresis, Methods, Laboratory Manuals, Immunoelectrophoresis, Isolation & purification",
+    "raw_text": "HAMES and RICKWOOD\nSECOND EDITION\nGel Electrophoresis of Proteins\nIRL PRESS\nMPG-ASMB\n46110\n100\n67",
+    "is_ignored": false,
+    "ol_title": "Gel electrophoresis of proteins",
+    "ol_authors": "B. D. Hames, D. Rickwood",
+    "polygon_coords": [
+      [
+        2417,
+        990
+      ],
+      [
+        2493,
+        988
+      ],
+      [
+        2544,
+        1852
+      ],
+      [
+        2458,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-26",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 26,
+    "title": "DNA Cloning",
+    "authors": "D. M. Glover",
+    "publication": "IRL Press",
+    "pub_year": 1984,
+    "isbn_primary": "9780947946180",
+    "isbns": [
+      "9780947946180",
+      "0947946187",
+      "9780947946197",
+      "9781852210489",
+      "9781852210496",
+      "9781852210694",
+      "0947946195",
+      "1852210486",
+      "1852210494",
+      "1852210699"
+    ],
+    "subjects": "Dna, Molecular cloning",
+    "raw_text": "D M Glover\nDNA Cloning Volume I\nIRL\n033\n063/1",
+    "is_ignored": false,
+    "ol_title": "DNA Cloning: A Practical Approach Volume I (Practical Approach Series)",
+    "ol_authors": "D. M. Glover",
+    "polygon_coords": [
+      [
+        2497,
+        1010
+      ],
+      [
+        2547,
+        1011
+      ],
+      [
+        2592,
+        1852
+      ],
+      [
+        2544,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-27",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 27,
+    "title": "DNA Cloning",
+    "authors": "D. M. Glover",
+    "publication": "IRL Press",
+    "pub_year": 1984,
+    "isbn_primary": "9780947946197",
+    "isbns": [
+      "9780947946197",
+      "0947946195",
+      "9780947946180",
+      "9781852210489",
+      "9781852210496",
+      "9781852210694",
+      "0947946187",
+      "1852210486",
+      "1852210494",
+      "1852210699"
+    ],
+    "subjects": "Dna, Molecular cloning",
+    "raw_text": "D M Glover\nDNA Cloning Volume II\nIRL\n033\n063/2",
+    "is_ignored": false,
+    "ol_title": "DNA Cloning: A Practical Approach Volume II (DNA Cloning)",
+    "ol_authors": "D. M. Glover",
+    "polygon_coords": [
+      [
+        2550,
+        1010
+      ],
+      [
+        2600,
+        1010
+      ],
+      [
+        2648,
+        1851
+      ],
+      [
+        2592,
+        1852
+      ]
+    ]
+  },
+  {
+    "id": "demo-28",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 28,
+    "title": "DNA Cloning",
+    "authors": "D. M. Glover",
+    "publication": "IRL Press",
+    "pub_year": 1986,
+    "isbn_primary": "9781852210489",
+    "isbns": [
+      "9781852210489",
+      "1852210486",
+      "9780947946180",
+      "9780947946197",
+      "9781852210496",
+      "9781852210694",
+      "0947946187",
+      "0947946195",
+      "1852210494",
+      "1852210699"
+    ],
+    "subjects": "Dna, Molecular cloning",
+    "raw_text": "D M Glover\nDNA Cloning Volume III\nMPG-ASMB\n294\n300\nIRL PRESS",
+    "is_ignored": false,
+    "ol_title": "DNA Cloning: A Practical Approach Volume III",
+    "ol_authors": "D. M. Glover",
+    "polygon_coords": [
+      [
+        2603,
+        1009
+      ],
+      [
+        2663,
+        1008
+      ],
+      [
+        2705,
+        1851
+      ],
+      [
+        2648,
+        1851
+      ]
+    ]
+  },
+  {
+    "id": "demo-29",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 29,
+    "title": "DNA Cloning 2: Expression Systems",
+    "authors": "Glover, Hames",
+    "publication": "IRL Press",
+    "pub_year": 1994,
+    "isbn_primary": "9780199634767",
+    "isbns": [
+      "9780199634767",
+      "9780199634774",
+      "9780199634781",
+      "9780199634798",
+      "0199634769",
+      "0199634777",
+      "0199634785",
+      "0199634793"
+    ],
+    "subjects": "Recombinant DNA, Molecular cloning, Laboratory manuals, 42.20 genetics (biology), 35.73 molecular genetics, DNA, Acidos nucleicos, Molecular Cloning",
+    "raw_text": "GLOVER and HAMES\nSECOND EDITION\nDNA Cloning 2\nExpression Systems\nIRL PRESS\nMPG-ASMB\n446\n300",
+    "is_ignored": false,
+    "ol_title": "DNA cloning",
+    "ol_authors": "David M. Glover, B. D. Hames",
+    "polygon_coords": [
+      [
+        2665,
+        991
+      ],
+      [
+        2718,
+        984
+      ],
+      [
+        2775,
+        1850
+      ],
+      [
+        2705,
+        1851
+      ]
+    ]
+  },
+  {
+    "id": "demo-30",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 30,
+    "title": "Protein Kinases",
+    "authors": "Woodgett",
+    "publication": "IRL Press",
+    "pub_year": 1994,
+    "isbn_primary": "9780199634088",
+    "isbns": [
+      "9780199634088",
+      "9780199634095",
+      "0199634084",
+      "0199634092"
+    ],
+    "subjects": "Protein Kinases, Proteinkinasen, Prot\u00e9ine kinase, Prot\u00e9ines, Biologie mol\u00e9culaire, Prot\u00e9ines kinases, Proteins",
+    "raw_text": "WOODGETT\nProtein Kinases\nMPG ASMB\n431\n300\nIRL PRESS",
+    "is_ignored": false,
+    "ol_title": "Protein Kinases (Frontiers in Molecular Biology)",
+    "ol_authors": "James Robert Woodgett",
+    "polygon_coords": [
+      [
+        2719,
+        960
+      ],
+      [
+        2759,
+        959
+      ],
+      [
+        2838,
+        1850
+      ],
+      [
+        2775,
+        1850
+      ]
+    ]
+  },
+  {
+    "id": "demo-31",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 31,
+    "title": "Proteins: Form and Function",
+    "authors": "Bradshaw, Purton",
+    "publication": "Elsevier Science & Technology Books, Academic Pr",
+    "pub_year": 1983,
+    "isbn_primary": "9780121245801",
+    "isbns": [
+      "9780121245801",
+      "9780323140850",
+      "0121245802",
+      "0323140858"
+    ],
+    "subjects": "Proteins -- Congresses, Seeds -- Congresses",
+    "raw_text": "Bradshaw\nPurton\nEDITORS\nPROTEINS: FORM AND FUNCTION\nMPG-ASMB\n033\n235",
+    "is_ignored": false,
+    "ol_title": "Proteins in Biology and Medicine",
+    "ol_authors": "Ralph Bradshaw",
+    "polygon_coords": [
+      [
+        2774,
+        974
+      ],
+      [
+        2832,
+        972
+      ],
+      [
+        2897,
+        1850
+      ],
+      [
+        2838,
+        1850
+      ]
+    ]
+  },
+  {
+    "id": "demo-32",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 32,
+    "title": "Extracellular Matrix, Anchor, and Adhesion Proteins",
+    "authors": "Kreis, Vale",
+    "publication": "Oxford",
+    "pub_year": 1993,
+    "isbn_primary": "9780198599333",
+    "isbns": [
+      "9780198599333",
+      "9780198599340",
+      "0198599331",
+      "019859934X"
+    ],
+    "subjects": "Extracellular matrix proteins, Cell adhesion molecules, Connective tissues, Cell Adhesion",
+    "raw_text": "Kreis\nVale\nExtracellular Matrix, Anchor, and Adhesion Proteins\nMPG-ASMB\n572\n300\nOXFORD",
+    "is_ignored": false,
+    "ol_title": "Guidebook to the extracellular matrix and adhesion proteins",
+    "ol_authors": "Thomas Kreis",
+    "polygon_coords": [
+      [
+        2836,
+        951
+      ],
+      [
+        2958,
+        948
+      ],
+      [
+        3028,
+        1849
+      ],
+      [
+        2897,
+        1850
+      ]
+    ]
+  },
+  {
+    "id": "demo-33",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 33,
+    "title": "Genes & Genomes",
+    "authors": "Singer, Berg",
+    "publication": "University Science Books",
+    "pub_year": 2014,
+    "isbn_primary": "9780073525310",
+    "isbns": [
+      "9780073525310",
+      "9781259095542",
+      "9781260041217",
+      "9781260240870",
+      "0073525316",
+      "1259095541",
+      "1260041212",
+      "1260240878"
+    ],
+    "subjects": "Genetics, G\u00e9n\u00e9tique, Science, Genetik, Genomik, Molekulargenetik, Qh430 .g458 2015, 2015 e-883",
+    "raw_text": "SINGER & BERG\nGENES & GENOMES\nUniversity Science Books\nMPG ASMB\n324\n300",
+    "is_ignored": false,
+    "ol_title": "Genetics: From Genes to Genomes",
+    "ol_authors": "Leland Hartwell, Leroy E. Hood, Michael L. Goldberg, Lee M. Silver, Michael Goldberg, Leland H. Hartwell, Michael L. Goldberg, Janice A. Fischer, Charles F. Aquadro, Michael Goldberg",
+    "polygon_coords": [
+      [
+        2952,
+        841
+      ],
+      [
+        3068,
+        836
+      ],
+      [
+        3166,
+        1849
+      ],
+      [
+        3028,
+        1849
+      ]
+    ]
+  },
+  {
+    "id": "demo-34",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 34,
+    "title": "Contractile Systems in Non-Muscle Tissues",
+    "authors": "Peery",
+    "publication": "North-Holland",
+    "pub_year": 1976,
+    "isbn_primary": "9780720406160",
+    "isbns": [
+      "9780720406160",
+      "0720406161"
+    ],
+    "subjects": "Cells, Myosin, Congresses, Actin, Cell Movement, Contraction",
+    "raw_text": "PEERY\nET AL\nEDITORS\nCONTRACTILE SYSTEMS IN NON-MUSCLE TISSUES\nNH",
+    "is_ignored": false,
+    "ol_title": "Contractile systems in non-muscle tissues",
+    "ol_authors": "International Symposium on Contractile Systems in Non-muscle Tissues Bressanone, Italy 1976.",
+    "polygon_coords": [
+      [
+        3086,
+        949
+      ],
+      [
+        3164,
+        947
+      ],
+      [
+        3249,
+        1849
+      ],
+      [
+        3166,
+        1849
+      ]
+    ]
+  },
+  {
+    "id": "demo-35",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 35,
+    "title": "Structure, Dynamics and Function of Biomolecules",
+    "authors": "Thomas S. Kuhn, Dennis Holland",
+    "publication": "The University of Chicago Press, Fondo de Cultura Economica USA, Fondo De Cultura Economica USA",
+    "pub_year": 2011,
+    "isbn_primary": "9783642717055",
+    "isbns": [
+      "9783642717055",
+      "9783642717062",
+      "9783642717079",
+      "3642717055",
+      "3642717063",
+      "3642717071"
+    ],
+    "subjects": "Biomolecules, Molecular dynamics, Structure-activity relationships (biochemistry), Life sciences, Biochemistry, Biochemistry, general",
+    "raw_text": "1\nStructure, Dynamics and Function of Biomolecules",
+    "is_ignored": false,
+    "ol_title": "Structure, Dynamics and Function of Biomolecules",
+    "ol_authors": "Anders Ehrenberg, Rudolf Rigler, Astrid Gr\u00e4slund",
+    "polygon_coords": [
+      [
+        3166,
+        946
+      ],
+      [
+        3226,
+        945
+      ],
+      [
+        3306,
+        1849
+      ],
+      [
+        3249,
+        1849
+      ]
+    ]
+  },
+  {
+    "id": "demo-36",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 36,
+    "title": "Biological Chemistry",
+    "authors": "Mahler, Cordes",
+    "publication": "Harper & Row",
+    "pub_year": 1966,
+    "isbn_primary": "9780060441722",
+    "isbns": [
+      "9780060441722",
+      "0060441720"
+    ],
+    "subjects": "Biochemistry, Biochimie, Biochemie",
+    "raw_text": "MAHLER & CORDES\nBIOLOGICAL CHEMISTRY\nHARPER & ROW",
+    "is_ignored": false,
+    "ol_title": "Biological chemistry",
+    "ol_authors": "Henry R. Mahler",
+    "polygon_coords": [
+      [
+        3235,
+        888
+      ],
+      [
+        3393,
+        885
+      ],
+      [
+        3476,
+        1849
+      ],
+      [
+        3306,
+        1849
+      ]
+    ]
+  },
+  {
+    "id": "demo-37",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 37,
+    "title": "Electron Microscopy at Molecular Dimensions",
+    "authors": "Baumeister, Vogell",
+    "publication": "Springer, Springer My Copy UK",
+    "pub_year": 1980,
+    "isbn_primary": "9783642676895",
+    "isbns": [
+      "9783642676895",
+      "9783642676901",
+      "3642676898",
+      "3642676901"
+    ],
+    "subjects": "Electron microscopes, Molecular biology, Molecular structure",
+    "raw_text": "Electron Microscopy at Molecular Dimensions\nEdited by\nBaumeister and Vogell",
+    "is_ignored": false,
+    "ol_title": "Electron Microscopy at Molecular Dimensions",
+    "ol_authors": "W. Baumeister",
+    "polygon_coords": [
+      [
+        3405,
+        944
+      ],
+      [
+        3484,
+        943
+      ],
+      [
+        3545,
+        1848
+      ],
+      [
+        3476,
+        1849
+      ]
+    ]
+  },
+  {
+    "id": "demo-38",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 38,
+    "title": "NMR of Macromolecules",
+    "authors": "Roberts",
+    "publication": "IRL Press",
+    "pub_year": 1993,
+    "isbn_primary": "9780199632244",
+    "isbns": [
+      "9780199632244",
+      "9780199632251",
+      "0199632243",
+      "0199632251"
+    ],
+    "subjects": "",
+    "raw_text": "ROBERTS\nNMR of Macromolecules\nIRL\nMPG-ASMB\n397\n300\n134",
+    "is_ignored": false,
+    "ol_title": "NMR of Macromolecules",
+    "ol_authors": "Gordon C. K. Roberts",
+    "polygon_coords": [
+      [
+        3488,
+        998
+      ],
+      [
+        3578,
+        996
+      ],
+      [
+        3618,
+        1848
+      ],
+      [
+        3545,
+        1848
+      ]
+    ]
+  },
+  {
+    "id": "demo-39",
+    "shelf_id": "demo-shelf",
+    "shelf_name": "Sample Library Shelf",
+    "room": "Reading Room",
+    "book_index": 39,
+    "title": "Molecular Biophysics",
+    "authors": "Volkenstein",
+    "publication": "Academic Press",
+    "pub_year": 2012,
+    "isbn_primary": "9780323144186",
+    "isbns": [
+      "9780323144186",
+      "0323144187"
+    ],
+    "subjects": "",
+    "raw_text": "MOLECULAR BIOPHYSICS\nVolkenstein\nMPG-ASMB\n033\n079\nACADEMIC PRESS",
+    "is_ignored": false,
+    "ol_title": "Molecular Biophysics",
+    "ol_authors": "M. Volkenstein",
+    "polygon_coords": [
+      [
+        3583,
+        994
+      ],
+      [
+        3714,
+        992
+      ],
+      [
+        3746,
+        1847
+      ],
+      [
+        3618,
+        1848
+      ]
+    ]
+  }
+]

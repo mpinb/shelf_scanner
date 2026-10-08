@@ -1,0 +1,23 @@
+{
+  "name": "ShelfScanner",
+  "short_name": "ShelfScanner",
+  "description": "AI-Powered Bookshelf Vision & Cataloging Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1411",
+  "theme_color": "#0f1411",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
