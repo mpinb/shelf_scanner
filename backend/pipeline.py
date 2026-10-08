@@ -140,6 +140,8 @@ class ShelfVisionPipeline:
         if max(orig_w, orig_h) > max_dim:
             web_img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
         
+        web_w, web_h = web_img.size
+        
         web_buf = io.BytesIO()
         web_img.save(web_buf, format="JPEG", quality=85, optimize=True)
         web_image_bytes = web_buf.getvalue()
@@ -221,12 +223,14 @@ class ShelfVisionPipeline:
                 is_ignored = True
 
             poly = b.get("polygon") or []
-            # Clamp polygon coords to image boundary
+            # Scale polygon coordinates to web_img dimensions so they match the displayed image
+            scale_x = web_w / orig_w if orig_w > 0 else 1.0
+            scale_y = web_h / orig_h if orig_h > 0 else 1.0
             clamped_poly = []
             for pt in poly:
                 if isinstance(pt, (list, tuple)) and len(pt) >= 2:
-                    cx = max(0, min(orig_w, int(pt[0])))
-                    cy = max(0, min(orig_h, int(pt[1])))
+                    cx = max(0, min(web_w, round(float(pt[0]) * scale_x)))
+                    cy = max(0, min(web_h, round(float(pt[1]) * scale_y)))
                     clamped_poly.append([cx, cy])
 
             isbns_list = b.get("all_isbns") or []

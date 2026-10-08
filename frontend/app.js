@@ -548,9 +548,47 @@ async function loadShelfData(shelfId) {
   }
 }
 
+function updateSvgViewBox() {
+  if (!shelfImg || !svgLayer) return;
+  const nw = shelfImg.naturalWidth;
+  const nh = shelfImg.naturalHeight;
+  if (!nw || !nh) return;
+
+  let maxX = 0;
+  let maxY = 0;
+  for (const b of (currentBooks || [])) {
+    for (const pt of (b.polygon_coords || [])) {
+      if (pt[0] > maxX) maxX = pt[0];
+      if (pt[1] > maxY) maxY = pt[1];
+    }
+  }
+
+  let vbW = nw;
+  let vbH = nh;
+  if (maxX > nw || maxY > nh) {
+    const scale = Math.max(maxX / nw, maxY / nh);
+    const multiplier = Math.ceil(scale * 10) / 10;
+    vbW = Math.round(nw * multiplier);
+    vbH = Math.round(nh * multiplier);
+  }
+
+  svgLayer.setAttribute("viewBox", `0 0 ${vbW} ${vbH}`);
+  svgLayer.setAttribute("preserveAspectRatio", "none");
+}
+
+if (shelfImg) {
+  shelfImg.addEventListener("load", () => {
+    updateSvgViewBox();
+  });
+}
+window.addEventListener("resize", () => {
+  updateSvgViewBox();
+});
+
 function renderShelfPolygons(books) {
   svgLayer.innerHTML = "";
   spineStrip.innerHTML = "";
+  updateSvgViewBox();
 
   books.forEach((book) => {
     const isIgnored = !!book.is_ignored;

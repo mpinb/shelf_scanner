@@ -593,9 +593,10 @@ main#app-main {
 
 .stage img {
   display: block;
-  width: 100%;
-  height: auto;
+  max-width: 100%;
   max-height: 70vh;
+  width: auto;
+  height: auto;
   user-select: none;
   -webkit-user-drag: none;
 }
