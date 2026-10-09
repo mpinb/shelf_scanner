@@ -1,6 +1,6 @@
 # 📱 ShelfScanner Mobile Web Application
 
-Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform. Designed specifically for smartphones with direct camera capture, Supabase Authentication & PostgreSQL, Supabase Storage, and an asynchronous Task Queue for OpenAI Vision model inference.
+Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform. Designed specifically for smartphones with direct camera capture, Supabase Authentication & PostgreSQL, Supabase Storage, and an asynchronous Task Queue for AI Vision model inference (powered by Google Gemini 3.8 Flash by default, with optional OpenAI support).
 
 ---
 
@@ -9,7 +9,7 @@ Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform.
 - **Mobile-First PWA**: Native camera shutter button (`capture="environment"`), pinch-to-zoom SVG spine overlays, and a swipe-up Bottom Sheet drawer for book editing.
 - **Supabase Authentication**: Secure user isolation with Row Level Security (RLS). Users only see and manage their own bookshelf collections.
 - **Supabase Storage**: Direct cloud object storage in the `shelf-images` bucket with user-isolated folder policies.
-- **Asynchronous Task Queue**: Background processing queue (`pipeline_jobs`) running vision segmentation, structured OCR (`gpt-6.1-sol` exclusively), fore-edge filtering, and Open Library canonical enrichment (3 req/s).
+- **Asynchronous Task Queue**: Background processing queue (`pipeline_jobs`) running vision segmentation, structured OCR (`gemini-3.8-flash` by default, or OpenAI models), fore-edge filtering, and Open Library canonical enrichment (3 req/s).
 - **One-Click Excel Export**: Generates professional, styled `.xlsx` spreadsheets with auto-fitted columns, frozen headers, and text-safe ISBNs.
 - **Render Ready**: Complete `render.yaml` and `Procfile` configured for deployment on Render's free tier.
 
@@ -32,9 +32,11 @@ Create `.env` in `shelf_scanner_app/`:
 SUPABASE_URL=https://your-project-ref.supabase.co
 SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+GEMINI_API_KEY=your-gemini-api-key
+MODEL_NAME=gemini-3.8-flash
+# Optional if using OpenAI models (e.g. gpt-6.1-sol, gpt-4o):
 OPENAI_API_KEY=sk-proj-...
 PORT=8000
-MODEL_NAME=gpt-6.1-sol
 ```
 
 ### Step 3: Run Locally
@@ -66,7 +68,9 @@ Open `http://localhost:8000` in your browser (or your phone's browser connected 
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
-   - `OPENAI_API_KEY`
+   - `GEMINI_API_KEY`
+   - `MODEL_NAME` (default: `gemini-3.8-flash`)
+   - `OPENAI_API_KEY` (optional, only needed if switching `MODEL_NAME` to an OpenAI model)
 6. Click **Create Web Service**. Your live mobile app URL will be available at `https://shelf-scanner-mobile.onrender.com`!
 
 ---
