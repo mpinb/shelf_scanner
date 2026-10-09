@@ -17,5 +17,7 @@ services:
         sync: false
       - key: OPENAI_API_KEY
         sync: false
+      - key: GEMINI_API_KEY
+        sync: false
       - key: MODEL_NAME
-        value: gpt-6.1-sol
+        value: gemini-3.8-flash

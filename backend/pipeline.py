@@ -5,10 +5,29 @@ import time
 import base64
 import re
 import urllib.parse
+from pathlib import Path
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
+load_dotenv(PROJECT_ROOT / ".env")
+load_dotenv(BASE_DIR / ".env")
+load_dotenv()
+
 from PIL import Image, ImageOps
 import numpy as np
 import cv2
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except ImportError:
+    OpenAI = None
+
+try:
+    from google import genai
+    from google.genai import types as genai_types
+except ImportError:
+    genai = None
+    genai_types = None
 import requests
 
 PROMPT_SPINE_SEGMENTATION_AND_OCR = """You are an expert bookshelf visual cataloger and OCR specialist.
@@ -69,53 +88,35 @@ def is_valid_isbn(s: str) -> bool:
 
 def ensure_horizontal_shelf_image(pil_img: Image.Image) -> Image.Image:
     """
-    Ensures that the bookshelf image is oriented horizontally and respects EXIF orientation.
-    If the bookshelf is photographed vertically (spines horizontal, shelf ledges vertical),
-    it automatically rotates the image so the shelf ledge runs horizontally across the frame.
+    Ensures that the bookshelf image respects EXIF metadata orientation.
     """
-    # 1. Respect EXIF metadata orientation
+    # Respect EXIF metadata orientation from smartphone camera
     pil_img = ImageOps.exif_transpose(pil_img)
     if pil_img.mode != "RGB":
         pil_img = pil_img.convert("RGB")
-
-    try:
-        img_np = np.array(pil_img)
-        gray = cv2.cvtColor(img_np, cv2.COLOR_RGB2GRAY)
-        h, w = gray.shape
-        scale = 800 / max(h, w)
-        small = cv2.resize(gray, (int(w * scale), int(h * scale)))
-
-        edges = cv2.Canny(small, 50, 150, apertureSize=3)
-        lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=100, minLineLength=int(small.shape[1] * 0.25), maxLineGap=20)
-        
-        if lines is not None:
-            horiz_lengths = 0
-            vert_lengths = 0
-            for line in lines:
-                x1, y1, x2, y2 = line[0]
-                length = np.hypot(x2 - x1, y2 - y1)
-                angle = np.degrees(np.arctan2(y2 - y1, x2 - x1))
-                if angle > 90: angle -= 180
-                elif angle < -90: angle += 180
-                if abs(angle) < 30:
-                    horiz_lengths += length
-                elif abs(angle) > 60:
-                    vert_lengths += length
-
-            # If dominant long lines are vertical, the shelf ledge is running up-and-down
-            if vert_lengths > horiz_lengths * 2.0 and vert_lengths > 200:
-                print(f"[Pipeline] Vertical shelf detected (vert={vert_lengths:.0f}, horiz={horiz_lengths:.0f}). Rotating 90° to horizontal.")
-                pil_img = pil_img.rotate(270, expand=True)
-    except Exception as e:
-        print(f"[Pipeline] Warning in horizontal alignment check: {e}")
-
     return pil_img
 
 class ShelfVisionPipeline:
-    def __init__(self, openai_api_key: str = None, model_name: str = "gpt-6.1-sol"):
-        self.api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
-        self.model_name = model_name or os.getenv("MODEL_NAME", "gpt-6.1-sol")
-        self.client = OpenAI(api_key=self.api_key)
+    def __init__(self, openai_api_key: str = None, gemini_api_key: str = None, model_name: str = None):
+        self.model_name = (model_name or os.getenv("MODEL_NAME", "gemini-3.8-flash")).strip()
+        self.is_gemini = "gemini" in self.model_name.lower()
+
+        if self.is_gemini:
+            self.gemini_api_key = gemini_api_key or os.getenv("GEMINI_API_KEY")
+            if not self.gemini_api_key:
+                raise ValueError("GEMINI_API_KEY must be set in .env when using Gemini models")
+            if genai is None:
+                raise ImportError("google-genai package is required for Gemini models")
+            self.gemini_client = genai.Client(api_key=self.gemini_api_key)
+            self.client = None
+        else:
+            self.api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+            if not self.api_key:
+                raise ValueError("OPENAI_API_KEY must be set in .env when using OpenAI models")
+            if OpenAI is None:
+                raise ImportError("openai package is required for OpenAI models")
+            self.client = OpenAI(api_key=self.api_key)
+            self.gemini_client = None
 
     def process_image(self, image_bytes: bytes, log_callback=None):
         """
@@ -146,13 +147,53 @@ class ShelfVisionPipeline:
         web_img.save(web_buf, format="JPEG", quality=85, optimize=True)
         web_image_bytes = web_buf.getvalue()
 
-        # Convert original image to base64 for OpenAI Vision API
-        img_buf = io.BytesIO()
-        img.save(img_buf, format="JPEG", quality=92)
-        base64_image = base64.b64encode(img_buf.getvalue()).decode("utf-8")
+        # --- STEP 2: Vision Model Query (Spine Segmentation & OCR) ---
+        log(2, f"Querying {self.model_name} for 4-corner spine polygons and structured OCR...")
+        t0 = time.time()
 
-        # Dynamic prompt specifying exact pixel dimensions and strict coordinate adherence
-        prompt_with_dims = f"""{PROMPT_SPINE_SEGMENTATION_AND_OCR}
+        if self.is_gemini:
+            # Gemini models perform natively with normalized [0, 1000] vision coordinates
+            prompt_with_dims = f"""{PROMPT_SPINE_SEGMENTATION_AND_OCR}
+
+### STRICT COORDINATE SYSTEM (NORMALIZED 0 TO 1000):
+- The coordinate origin [0, 0] is located at the top-left corner. [1000, 1000] is the bottom-right corner.
+- All 4-corner polygon coordinates [x, y] MUST be returned strictly in normalized [0, 1000] space: x in [0, 1000], y in [0, 1000].
+- Order books strictly from left to right on the center shelf.
+- Return ONLY a valid JSON object matching the requested schema.
+"""
+            response = None
+            last_err = None
+            for attempt in range(4):
+                try:
+                    response = self.gemini_client.models.generate_content(
+                        model=self.model_name,
+                        contents=[
+                            genai_types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
+                            prompt_with_dims
+                        ],
+                        config=genai_types.GenerateContentConfig(
+                            response_mime_type="application/json",
+                            temperature=0.2
+                        )
+                    )
+                    break
+                except Exception as e:
+                    last_err = e
+                    time.sleep(2 * (attempt + 1))
+            if not response:
+                log(2, f"Error querying {self.model_name}: {last_err}")
+                raise last_err
+
+            raw_text = (response.text or "").strip()
+            coord_scale_x = web_w / 1000.0
+            coord_scale_y = web_h / 1000.0
+        else:
+            # OpenAI models operate in pixel coordinate space
+            img_buf = io.BytesIO()
+            img.save(img_buf, format="JPEG", quality=92)
+            base64_image = base64.b64encode(img_buf.getvalue()).decode("utf-8")
+
+            prompt_with_dims = f"""{PROMPT_SPINE_SEGMENTATION_AND_OCR}
 
 ### EXACT IMAGE DIMENSIONS & STRICT COORDINATE SYSTEM:
 - The uploaded image has EXACT dimensions: width = {orig_w} pixels, height = {orig_h} pixels.
@@ -161,39 +202,38 @@ class ShelfVisionPipeline:
 - Do NOT normalize coordinates to [0, 1] or [0, 1000].
 - Do NOT rescale, downsample, or modify coordinates. Use the exact {orig_w} x {orig_h} coordinate space.
 """
-
-        # --- STEP 2: Vision Model Query (Spine Segmentation & OCR) ---
-        log(2, f"Querying {self.model_name} for 4-corner spine polygons and structured OCR...")
-        t0 = time.time()
-
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt_with_dims},
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/jpeg;base64,{base64_image}",
-                                    "detail": "high"
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": prompt_with_dims},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{base64_image}",
+                                        "detail": "high"
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ],
-                max_completion_tokens=16384
-            )
-            raw_text = (response.choices[0].message.content or "").strip()
-            elapsed = time.time() - t0
-            log(2, f"{self.model_name} vision inference completed in {elapsed:.1f}s")
-        except Exception as e:
-            log(2, f"Error querying {self.model_name}: {e}")
-            raise e
+                            ]
+                        }
+                    ],
+                    max_completion_tokens=16384
+                )
+                raw_text = (response.choices[0].message.content or "").strip()
+            except Exception as e:
+                log(2, f"Error querying {self.model_name}: {e}")
+                raise e
 
-        # Parse JSON robustly from model output (no fallbacks to other models)
+            coord_scale_x = web_w / orig_w if orig_w > 0 else 1.0
+            coord_scale_y = web_h / orig_h if orig_h > 0 else 1.0
+
+        elapsed = time.time() - t0
+        log(2, f"{self.model_name} vision inference completed in {elapsed:.1f}s")
+
+        # Parse JSON robustly from model output
         clean_json = raw_text
         if "```json" in clean_json:
             clean_json = clean_json.split("```json", 1)[1].split("```", 1)[0].strip()
@@ -223,14 +263,11 @@ class ShelfVisionPipeline:
                 is_ignored = True
 
             poly = b.get("polygon") or []
-            # Scale polygon coordinates to web_img dimensions so they match the displayed image
-            scale_x = web_w / orig_w if orig_w > 0 else 1.0
-            scale_y = web_h / orig_h if orig_h > 0 else 1.0
             clamped_poly = []
             for pt in poly:
                 if isinstance(pt, (list, tuple)) and len(pt) >= 2:
-                    cx = max(0, min(web_w, round(float(pt[0]) * scale_x)))
-                    cy = max(0, min(web_h, round(float(pt[1]) * scale_y)))
+                    cx = max(0, min(web_w, round(float(pt[0]) * coord_scale_x)))
+                    cy = max(0, min(web_h, round(float(pt[1]) * coord_scale_y)))
                     clamped_poly.append([cx, cy])
 
             isbns_list = b.get("all_isbns") or []
