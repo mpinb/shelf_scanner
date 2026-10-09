@@ -161,6 +161,7 @@ async def create_scan_job(
         daily_count_res = supabase_admin.table("pipeline_jobs")\
             .select("id", count="exact")\
             .eq("user_id", user_id)\
+            .not_.like("image_path", "enrichment:%")\
             .gte("created_at", since_24h)\
             .execute()
         if daily_count_res.count is not None and daily_count_res.count >= 50:
@@ -258,6 +259,7 @@ async def get_usage(user: dict = Depends(get_current_user)):
         daily_count_res = supabase_admin.table("pipeline_jobs")\
             .select("id", count="exact")\
             .eq("user_id", user_id)\
+            .not_.like("image_path", "enrichment:%")\
             .gte("created_at", since_24h)\
             .execute()
         used = daily_count_res.count if daily_count_res.count is not None else 0
@@ -292,6 +294,58 @@ async def get_shelf(shelf_id: str, user: dict = Depends(get_current_user)):
     return {
         "shelf": shelf_res.data[0],
         "books": books_res.data or []
+    }
+
+
+@app.post("/api/shelves/{shelf_id}/enrich")
+async def trigger_shelf_enrichment(shelf_id: str, user: dict = Depends(get_current_user)):
+    """
+    Enqueues an Open Library bibliographic enrichment job for the shelf.
+    Does not count against the user's daily vision inference scan limit.
+    """
+    shelf_res = supabase_admin.table("shelves").select("*").eq("id", shelf_id).eq("user_id", user["id"]).execute()
+    if not shelf_res.data:
+        raise HTTPException(status_code=404, detail="Shelf not found")
+
+    shelf = shelf_res.data[0]
+
+    # Check if an enrichment job is already queued or processing for this shelf
+    active_jobs = supabase_admin.table("pipeline_jobs")\
+        .select("id, status")\
+        .eq("shelf_id", shelf_id)\
+        .in_("status", ["queued", "processing"])\
+        .like("image_path", "enrichment:%")\
+        .execute()
+
+    if active_jobs.data:
+        return {
+            "success": True,
+            "job_id": active_jobs.data[0]["id"],
+            "status": active_jobs.data[0]["status"],
+            "message": "Enrichment job already queued or in progress for this shelf"
+        }
+
+    job_record = {
+        "user_id": user["id"],
+        "shelf_id": shelf_id,
+        "shelf_name": shelf["name"],
+        "room": shelf.get("room") or "General",
+        "image_path": f"enrichment:{shelf_id}",
+        "status": "queued",
+        "current_step": 1,
+        "step_details": "Queued for Open Library catalog enrichment...",
+        "logs": [f"[{time.strftime('%H:%M:%S')}] Enqueued Open Library enrichment job"]
+    }
+
+    res = supabase_admin.table("pipeline_jobs").insert(job_record).execute()
+    if not res.data:
+        raise HTTPException(status_code=500, detail="Failed to enqueue enrichment job")
+
+    return {
+        "success": True,
+        "job_id": res.data[0]["id"],
+        "status": "queued",
+        "message": "Open Library enrichment job queued successfully!"
     }
 
 

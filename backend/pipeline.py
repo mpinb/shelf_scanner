@@ -30,6 +30,11 @@ except ImportError:
     genai_types = None
 import requests
 
+try:
+    from backend.openlibrary import openlibrary_client
+except ImportError:
+    from openlibrary import openlibrary_client
+
 PROMPT_SPINE_SEGMENTATION_AND_OCR = """You are an expert bookshelf visual cataloger and OCR specialist.
 You are analyzing a photograph of a physical bookshelf. Your task is to identify the **center shelf of interest**, segment each physical book spine, and extract its bibliographic data.
 
@@ -118,7 +123,7 @@ class ShelfVisionPipeline:
             self.client = OpenAI(api_key=self.api_key)
             self.gemini_client = None
 
-    def process_image(self, image_bytes: bytes, log_callback=None):
+    def process_image(self, image_bytes: bytes, log_callback=None, skip_enrichment: bool = False):
         """
         Executes the vision segmentation, OCR, fore-edge suppression, and canonical enrichment pipeline.
         Calls log_callback(step_num, message) for real-time progress logging.
@@ -296,121 +301,34 @@ class ShelfVisionPipeline:
         log(3, f"Categorized {len(processed_books)} books ({ignored_count} suppressed as front-edges)")
 
         # --- STEP 4: Canonical Open Library Enrichment ---
-        log(4, "Performing Open Library bibliographic verification and canonical enrichment...")
-        ol_headers = {"User-Agent": "ShelfScannerApp/1.0 (academic/library; mailto:aiyer.aditya@gmail.com)"}
-        enriched_count = 0
-        for b in processed_books:
-            if b["is_ignored"]:
-                continue
-            
-            # Clean and sanitize search inputs to prevent SSRF or malformed HTTP requests
-            clean_t = re.sub(r"[\r\n\t]", " ", (b.get("title") or "")).strip()
-            clean_t = re.sub(r"\s+", " ", clean_t)[:100]
-            clean_a = re.sub(r"[\r\n\t]", " ", (b.get("authors") or "")).strip()
-            clean_a = re.sub(r"\s+", " ", clean_a)[:60]
-
-            if not clean_t or len(clean_t) < 2 or clean_t.lower() == "untitled":
-                b["enrichment_status"] = "not_found"
-                continue
-
-            # Prioritized query strategies:
-            # 1. Exact title + author
-            # 2. Combined general search query q="title author"
-            # 3. Cleaned title only
-            queries = []
-            q1 = {"title": clean_t, "fields": "key,title,subtitle,author_name,publisher,isbn", "limit": 3}
-            if clean_a and len(clean_a) > 2:
-                q1["author"] = clean_a.split(",")[0].strip()
-            queries.append(q1)
-
-            if clean_a and len(clean_a) > 2:
-                queries.append({
-                    "q": f"{clean_t} {clean_a.split(',')[0].strip()}",
-                    "fields": "key,title,subtitle,author_name,publisher,isbn",
-                    "limit": 3
-                })
-
-            queries.append({
-                "title": clean_t,
-                "fields": "key,title,subtitle,author_name,publisher,isbn",
-                "limit": 3
-            })
-
-            matched = False
-            for q_params in queries:
-                try:
-                    time.sleep(0.34)  # Ensure <= 3 requests per second
-                    url = f"https://openlibrary.org/search.json?{urllib.parse.urlencode(q_params)}"
-                    resp = requests.get(url, timeout=7, headers=ol_headers)
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        docs = data.get("docs", [])
-                        if docs:
-                            doc = docs[0]
-                            b["ol_title"] = doc.get("title")
-                            ol_auths = doc.get("author_name") or []
-                            b["ol_authors"] = ", ".join(ol_auths[:3]) if ol_auths else None
-                            ol_pubs = doc.get("publisher") or []
-                            b["ol_publisher"] = ol_pubs[0] if ol_pubs else None
-
-                            # Extract and validate ISBNs from the work record
-                            raw_isbns = doc.get("isbn") or []
-                            valid_isbns = [re.sub(r"[^0-9X]", "", str(i).upper()) for i in raw_isbns if is_valid_isbn(i)]
-
-                            # If edition-specific or language-specific ISBNs needed (e.g. translated title or empty isbns)
-                            work_key = doc.get("key")
-                            if work_key and work_key.startswith("/works/"):
-                                try:
-                                    time.sleep(0.34)
-                                    ed_url = f"https://openlibrary.org{work_key}/editions.json?limit=30"
-                                    ed_resp = requests.get(ed_url, timeout=7, headers=ol_headers)
-                                    if ed_resp.status_code == 200:
-                                        entries = ed_resp.json().get("entries", [])
-                                        title_lower = title.lower()
-                                        edition_isbns = []
-                                        for entry in entries:
-                                            ed_title = (entry.get("title") or "").lower()
-                                            # Match edition title specifically (e.g., German/French translations)
-                                            if title_lower in ed_title or ed_title in title_lower:
-                                                for cand in (entry.get("isbn_13") or []) + (entry.get("isbn_10") or []):
-                                                    c_clean = re.sub(r"[^0-9X]", "", str(cand).upper())
-                                                    if is_valid_isbn(c_clean) and c_clean not in edition_isbns:
-                                                        edition_isbns.append(c_clean)
-
-                                        # Fallback to general edition candidates if no specific edition matched and work had none
-                                        if not edition_isbns and not valid_isbns:
-                                            for entry in entries:
-                                                for cand in (entry.get("isbn_13") or []) + (entry.get("isbn_10") or []):
-                                                    c_clean = re.sub(r"[^0-9X]", "", str(cand).upper())
-                                                    if is_valid_isbn(c_clean) and c_clean not in edition_isbns:
-                                                        edition_isbns.append(c_clean)
-
-                                        # Prioritize specific edition ISBNs at the front
-                                        for ed_isbn in edition_isbns:
-                                            if ed_isbn not in valid_isbns:
-                                                valid_isbns.insert(0, ed_isbn)
-                                except Exception:
-                                    pass
-
-                            # Merge into book record without duplicates
-                            for isbn in valid_isbns:
-                                if isbn not in b["isbns"]:
-                                    b["isbns"].append(isbn)
-
-                            if not b["isbn_primary"] and b["isbns"]:
-                                b["isbn_primary"] = b["isbns"][0]
-
-                            b["enrichment_status"] = "matched"
-                            enriched_count += 1
-                            matched = True
-                            break
-                except Exception:
+        if skip_enrichment:
+            log(4, "Queued Open Library catalog enrichment for pipeline queue...")
+            for b in processed_books:
+                if not b["is_ignored"]:
+                    b["enrichment_status"] = "pending"
+        else:
+            log(4, "Performing Open Library bibliographic verification and canonical enrichment...")
+            enriched_count = 0
+            for b in processed_books:
+                if b["is_ignored"]:
                     continue
 
-            if not matched:
-                b["enrichment_status"] = "not_found"
+                meta, _ = openlibrary_client.enrich_book_metadata(b.get("title"), b.get("authors"))
+                if meta:
+                    b["ol_title"] = meta.get("ol_title")
+                    b["ol_authors"] = meta.get("ol_authors")
+                    b["ol_publisher"] = meta.get("ol_publisher")
+                    for isbn in meta.get("isbns", []):
+                        if isbn not in b["isbns"]:
+                            b["isbns"].append(isbn)
+                    if not b["isbn_primary"] and b["isbns"]:
+                        b["isbn_primary"] = b["isbns"][0]
+                    b["enrichment_status"] = "matched"
+                    enriched_count += 1
+                else:
+                    b["enrichment_status"] = "not_found"
 
-        log(4, f"Enriched {enriched_count} books against canonical Open Library catalog")
+            log(4, f"Enriched {enriched_count} books against canonical Open Library catalog")
 
         return {
             "orig_width": orig_w,
