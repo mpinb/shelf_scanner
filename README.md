@@ -1,6 +1,6 @@
 # 📱 ShelfScanner Mobile Web Application
 
-Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform. Designed specifically for smartphones with direct camera capture, Supabase Authentication & PostgreSQL, Supabase Storage, and an asynchronous Task Queue for AI Vision model inference (powered by Google Gemini 3.8 Flash by default, with optional OpenAI support).
+Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform. Designed specifically for smartphones with direct camera capture, Supabase Authentication & PostgreSQL, Supabase Storage, and an asynchronous Task Queue for AI Vision model inference (configured via `.env` to use Google Gemini or OpenAI).
 
 ---
 
@@ -9,7 +9,7 @@ Commercial-ready, multi-user bookshelf visualizer and spine cataloging platform.
 - **Mobile-First PWA**: Native camera shutter button (`capture="environment"`), pinch-to-zoom SVG spine overlays, and a swipe-up Bottom Sheet drawer for book editing.
 - **Supabase Authentication**: Secure user isolation with Row Level Security (RLS). Users only see and manage their own bookshelf collections.
 - **Supabase Storage**: Direct cloud object storage in the `shelf-images` bucket with user-isolated folder policies.
-- **Asynchronous Task Queue**: Background processing queue (`pipeline_jobs`) running vision segmentation, structured OCR (`gemini-3.8-flash` by default, or OpenAI models), fore-edge filtering, and Open Library canonical enrichment (3 req/s).
+- **Asynchronous Task Queue**: Background processing queue (`pipeline_jobs`) running vision segmentation, structured OCR, fore-edge filtering, and Open Library canonical enrichment (3 req/s). Vision engine is controlled strictly via the `MODEL_NAME` switch in `.env` (`gemini-3.8-flash` by default, or OpenAI models like `gpt-6.1-sol` / `gpt-4o`).
 - **One-Click Excel Export**: Generates professional, styled `.xlsx` spreadsheets with auto-fitted columns, frozen headers, and text-safe ISBNs.
 - **Render Ready**: Complete `render.yaml` and `Procfile` configured for deployment on Render's free tier.
 
