@@ -148,6 +148,9 @@ def process_enrichment_job(job: dict) -> bool:
             if idx % 5 == 0 or idx == total_to_process:
                 update_enrich_step(3, f"Enriching: {idx}/{total_to_process} queried ({matched_count} matched)...")
 
+            # Polite pause between consecutive books to avoid burst traffic
+            time.sleep(0.1)
+
         # Check if retry is needed due to transient errors
         if transient_error_count > 0:
             if current_try < MAX_JOB_TRIES:
