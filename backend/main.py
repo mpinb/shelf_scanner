@@ -3,17 +3,15 @@ import io
 import time
 import uuid
 import threading
+import datetime
 from pathlib import Path
 from typing import Optional, List
-from fastapi import FastAPI, Depends, HTTPException, Header, UploadFile, File, Form, Response
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, StreamingResponse
-from pydantic import BaseModel
-from dotenv import load_dotenv
-from supabase import create_client, Client
+from fastapi.responses import FileResponse
+from PIL import Image
 import sys
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
@@ -23,28 +21,27 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 try:
+    from backend.auth import (
+        supabase_admin,
+        get_current_user,
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        BUCKET_NAME,
+    )
+    from backend.models import BookUpdate
     from backend.exporter import generate_library_xlsx
 except ImportError:
+    from auth import (
+        supabase_admin,
+        get_current_user,
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        BUCKET_NAME,
+    )
+    from models import BookUpdate
     from exporter import generate_library_xlsx
+
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
-
-load_dotenv(PROJECT_ROOT / ".env")
-load_dotenv(BASE_DIR / ".env")
-load_dotenv()
-
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
-SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or SUPABASE_ANON_KEY
-BUCKET_NAME = "shelf-images"
-
-if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
-    raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env")
-
-# Admin client for database & worker operations
-supabase_admin: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-
-import datetime
-from PIL import Image
 
 # Prevent PIL decompression bombs (limit to max 50 megapixels)
 Image.MAX_IMAGE_PIXELS = 50_000_000
@@ -78,30 +75,13 @@ app.add_middleware(
 )
 
 
-# --- Authentication Dependency ---
-async def get_current_user(authorization: Optional[str] = Header(None)) -> dict:
-    """
-    Validates the Supabase JWT Bearer token from the client.
-    """
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Missing or invalid authentication token")
-    
-    token = authorization.split(" ")[1]
-    try:
-        user_res = supabase_admin.auth.get_user(token)
-        if not user_res or not user_res.user:
-            raise HTTPException(status_code=401, detail="Invalid session token")
-        return {
-            "id": user_res.user.id,
-            "email": user_res.user.email
-        }
-    except Exception as e:
-        raise HTTPException(status_code=401, detail=f"Authentication error: {str(e)}")
-
-
 # --- Optional In-Process Worker for Single-Service Render Deployments ---
 def start_background_worker_thread():
-    from worker import process_next_job
+    try:
+        from backend.worker import process_next_job
+    except ImportError:
+        from worker import process_next_job
+
     def loop():
         print("[App] In-process background task queue worker started.")
         while True:
@@ -116,20 +96,6 @@ def start_background_worker_thread():
     t.start()
 
 start_background_worker_thread()
-
-
-# --- Models ---
-class BookUpdate(BaseModel):
-    title: Optional[str] = None
-    authors: Optional[str] = None
-    publication: Optional[str] = None
-    pub_year: Optional[int] = None
-    isbn_primary: Optional[str] = None
-    subjects: Optional[str] = None
-    misc: Optional[str] = None
-    raw_text: Optional[str] = None
-    user_notes: Optional[str] = None
-    is_ignored: Optional[bool] = None
 
 
 # --- Public Configuration Endpoint ---

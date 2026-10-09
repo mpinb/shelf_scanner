@@ -13,26 +13,16 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from dotenv import load_dotenv
-from supabase import create_client, Client
+
 try:
+    from backend.auth import supabase_admin as supabase, BUCKET_NAME
     from backend.pipeline import ShelfVisionPipeline
     from backend.openlibrary import openlibrary_client
 except ImportError:
+    from auth import supabase_admin as supabase, BUCKET_NAME
     from pipeline import ShelfVisionPipeline
     from openlibrary import openlibrary_client
 
-load_dotenv(PROJECT_ROOT / ".env")
-load_dotenv(BASE_DIR / ".env")
-load_dotenv()
-
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY")
-BUCKET_NAME = "shelf-images"
-
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env")
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 pipeline = ShelfVisionPipeline()
 
 _last_queue_err_time = 0

@@ -1,14 +1,23 @@
 // Service Worker for ShelfScanner PWA
-const CACHE_NAME = "shelfscanner-v5";
+const CACHE_NAME = "shelfscanner-v6";
 const STATIC_ASSETS = [
   "/",
-  "/static/styles.css?v=5",
-  "/static/app.js?v=4",
+  "/static/styles.css?v=6",
+  "/static/app.js?v=6",
   "/static/supabase.min.js",
   "/favicon.svg",
   "/manifest.json",
   "/static/demo_data.json",
-  "/static/demo_shelf.jpg"
+  "/static/demo_shelf.jpg",
+  "/static/js/state.js",
+  "/static/js/ui.js",
+  "/static/js/api.js",
+  "/static/js/auth.js",
+  "/static/js/canvas.js",
+  "/static/js/drawer.js",
+  "/static/js/shelves.js",
+  "/static/js/scanner.js",
+  "/static/js/catalog.js"
 ];
 
 // Install: pre-cache application shell
