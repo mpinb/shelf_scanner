@@ -791,21 +791,24 @@ polygon.book-poly.ignored {
 .bottom-sheet {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
   width: 100%;
-  height: 50vh;
-  max-height: 50vh;
+  max-width: 620px;
+  height: 52vh;
+  max-height: 52vh;
   background: var(--bg-card);
-  border-top: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
   border-radius: 16px 16px 0 0;
   z-index: 70;
-  transform: translateY(100%);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
+  overflow: hidden;
 }
-.bottom-sheet.open { transform: translateY(0); }
+.bottom-sheet.open { transform: translate(-50%, 0); }
 
 .sheet-handle-bar {
   display: flex;
@@ -850,8 +853,11 @@ polygon.book-poly.ignored {
 .sheet-body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px;
-  padding-bottom: calc(20px + var(--safe-bottom));
+  padding-bottom: calc(24px + var(--safe-bottom));
+  width: 100%;
+  max-width: 100%;
 }
 
 /* --- Form Fields --- */
@@ -859,6 +865,8 @@ polygon.book-poly.ignored {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-bottom: 2px;
 }
 .compact-ignore-label {
@@ -895,6 +903,8 @@ polygon.book-poly.ignored {
   flex-direction: column;
   gap: 6px;
   margin-bottom: 14px;
+  width: 100%;
+  min-width: 0;
 }
 .form-group label {
   font-size: 0.74rem;
@@ -904,6 +914,9 @@ polygon.book-poly.ignored {
   letter-spacing: 0.04em;
 }
 .form-input, .form-textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--input-bg);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
@@ -918,8 +931,40 @@ polygon.book-poly.ignored {
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 .form-textarea { resize: vertical; min-height: 54px; }
-.monospace { font-family: monospace; font-size: 0.78rem; }
-.form-row-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+.monospace { font-family: monospace; font-size: 0.78rem; word-break: break-all; }
+
+/* 2-column row: Publisher expands, Year is cleanly constrained to 4 characters */
+.form-row-2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+.form-row-2 > .form-group:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.form-row-2 > .form-group:last-child {
+  flex: 0 0 76px;
+  width: 76px;
+  min-width: 76px;
+}
+#field-year {
+  width: 76px;
+  max-width: 76px;
+  text-align: center;
+  padding: 10px 4px;
+  font-family: monospace, var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  -moz-appearance: textfield;
+}
+#field-year::-webkit-inner-spin-button,
+#field-year::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .ol-badge {
   font-size: 0.75rem;
@@ -929,6 +974,9 @@ polygon.book-poly.ignored {
   border-radius: 4px;
   margin-top: 3px;
   border: 1px solid rgba(59, 130, 246, 0.2);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .chip-container {

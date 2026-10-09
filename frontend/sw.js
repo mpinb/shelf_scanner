@@ -1,8 +1,8 @@
 // Service Worker for ShelfScanner PWA
-const CACHE_NAME = "shelfscanner-v4";
+const CACHE_NAME = "shelfscanner-v5";
 const STATIC_ASSETS = [
   "/",
-  "/static/styles.css?v=4",
+  "/static/styles.css?v=5",
   "/static/app.js?v=4",
   "/static/supabase.min.js",
   "/favicon.svg",
