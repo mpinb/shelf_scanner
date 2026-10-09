@@ -17,6 +17,7 @@ let demoBooksData = null;
 let currentZoom = 1.0;
 let panX = 0;
 let panY = 0;
+let justDragged = false;
 
 // DOM Elements
 const authModal = document.getElementById("auth-modal");
@@ -601,7 +602,12 @@ function renderShelfPolygons(books) {
     poly.dataset.id = book.id;
     if (isIgnored) poly.classList.add("ignored");
 
-    poly.addEventListener("click", () => {
+    poly.addEventListener("click", (e) => {
+      if (justDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       triggerHaptic("light");
       selectBook(book.id);
     });
@@ -816,10 +822,11 @@ function zoomToSpine(book) {
   const normX = spineCenterX / imgW;
   const normY = spineCenterY / imgH;
 
-  // Zoom to 2.4x so the spine is prominent in the top 50vh of the screen
-  currentZoom = 2.4;
+  // Zoom to 2.2x so the spine is prominent in the top visible portion of the screen
+  currentZoom = 2.2;
   panX = (0.5 - normX) * stageW * currentZoom;
-  panY = (0.5 - normY) * stageH * currentZoom;
+  const vH = viewport.clientHeight || stageH;
+  panY = (0.5 - normY) * stageH * currentZoom - (vH * 0.12);
 
   updateZoomTransform();
 }
@@ -832,7 +839,9 @@ function openBottomSheet() {
 function closeBottomSheet() {
   bottomSheet.classList.remove("open");
   sheetBackdrop.classList.remove("show");
-  resetZoom();
+  const prevSelected = document.querySelector(".book-poly.selected");
+  if (prevSelected) prevSelected.classList.remove("selected");
+  selectedBookId = null;
 }
 
 if (btnCloseSheet) btnCloseSheet.addEventListener("click", () => {
@@ -907,12 +916,35 @@ async function saveBookDetails() {
 }
 
 // --- Gesture Zoom & Pan Controls (Item 1) ---
+function clampPan() {
+  if (!stage || !viewport) return;
+  if (currentZoom <= 1.0) {
+    panX = 0;
+    panY = 0;
+    return;
+  }
+  const vW = viewport.clientWidth || window.innerWidth;
+  const vH = viewport.clientHeight || (window.innerHeight * 0.5);
+  const sW = stage.offsetWidth * currentZoom;
+  const sH = stage.offsetHeight * currentZoom;
+
+  const maxPanX = Math.max(0, (sW - vW) / 2) + vW * 0.45;
+  const maxPanY = Math.max(0, (sH - vH) / 2) + vH * 0.45;
+
+  panX = Math.max(-maxPanX, Math.min(maxPanX, panX));
+  panY = Math.max(-maxPanY, Math.min(maxPanY, panY));
+}
+
 function updateZoomTransform() {
+  clampPan();
   if (stage) {
     stage.style.transform = `translate(${panX}px, ${panY}px) scale(${currentZoom})`;
   }
   if (btnZoomReset) {
     btnZoomReset.textContent = `${Math.round(currentZoom * 100)}%`;
+  }
+  if (viewport) {
+    viewport.classList.toggle("is-zoomed", currentZoom > 1.05);
   }
 }
 
@@ -927,14 +959,14 @@ function setupGestureControls() {
   if (btnZoomIn) {
     btnZoomIn.addEventListener("click", () => {
       triggerHaptic("light");
-      currentZoom = Math.min(3.5, currentZoom + 0.3);
+      currentZoom = Math.min(4.5, currentZoom + 0.35);
       updateZoomTransform();
     });
   }
   if (btnZoomOut) {
     btnZoomOut.addEventListener("click", () => {
       triggerHaptic("light");
-      currentZoom = Math.max(1.0, currentZoom - 0.3);
+      currentZoom = Math.max(1.0, currentZoom - 0.35);
       if (currentZoom === 1.0) { panX = 0; panY = 0; }
       updateZoomTransform();
     });
@@ -948,11 +980,80 @@ function setupGestureControls() {
 
   if (!viewport) return;
 
+  // --- Mouse Drag to Pan / Scroll ---
+  let isMouseDown = false;
+  let mouseStartX = 0;
+  let mouseStartY = 0;
+  let mousePanStartX = 0;
+  let mousePanStartY = 0;
+  let mouseDragDist = 0;
+
+  viewport.addEventListener("mousedown", (e) => {
+    // Only drag on left or middle button
+    if (e.button !== 0 && e.button !== 1) return;
+    if (currentZoom <= 1.0 && e.button !== 1) return;
+
+    isMouseDown = true;
+    mouseStartX = e.clientX;
+    mouseStartY = e.clientY;
+    mousePanStartX = panX;
+    mousePanStartY = panY;
+    mouseDragDist = 0;
+    viewport.classList.add("is-dragging");
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isMouseDown) return;
+    const dx = e.clientX - mouseStartX;
+    const dy = e.clientY - mouseStartY;
+    mouseDragDist = Math.hypot(dx, dy);
+
+    if (mouseDragDist > 5) {
+      justDragged = true;
+    }
+
+    panX = mousePanStartX + dx;
+    panY = mousePanStartY + dy;
+    updateZoomTransform();
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!isMouseDown) return;
+    isMouseDown = false;
+    viewport.classList.remove("is-dragging");
+    if (mouseDragDist > 5) {
+      setTimeout(() => { justDragged = false; }, 160);
+    } else {
+      justDragged = false;
+    }
+  });
+
+  // --- Mouse Wheel & Trackpad Panning & Zoom ---
+  viewport.addEventListener("wheel", (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      // Pinch zoom / Ctrl+Wheel zoom
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.15 : 0.88;
+      currentZoom = Math.min(4.5, Math.max(1.0, currentZoom * factor));
+      updateZoomTransform();
+    } else if (currentZoom > 1.0) {
+      // Trackpad 2-finger pan or mouse wheel scroll
+      e.preventDefault();
+      panX -= e.deltaX;
+      panY -= e.deltaY;
+      updateZoomTransform();
+    }
+  }, { passive: false });
+
+  // --- Touch Gestures (Pinch to Zoom & Touch Pan) ---
   let initialDist = 0;
   let initialZoom = 1.0;
-  let isPanning = false;
+  let isTouchPanning = false;
   let startTouchX = 0;
   let startTouchY = 0;
+  let touchPanStartX = 0;
+  let touchPanStartY = 0;
+  let touchMoveDist = 0;
   let lastTapTime = 0;
 
   viewport.addEventListener("touchstart", (e) => {
@@ -962,6 +1063,7 @@ function setupGestureControls() {
         e.touches[0].clientY - e.touches[1].clientY
       );
       initialZoom = currentZoom;
+      isTouchPanning = false;
     } else if (e.touches.length === 1) {
       // Double tap check to toggle 1x <-> 2.2x zoom
       const now = Date.now();
@@ -979,9 +1081,13 @@ function setupGestureControls() {
       lastTapTime = now;
 
       if (currentZoom > 1.0) {
-        isPanning = true;
-        startTouchX = e.touches[0].clientX - panX;
-        startTouchY = e.touches[0].clientY - panY;
+        isTouchPanning = true;
+        touchMoveDist = 0;
+        startTouchX = e.touches[0].clientX;
+        startTouchY = e.touches[0].clientY;
+        touchPanStartX = panX;
+        touchPanStartY = panY;
+        viewport.classList.add("is-dragging");
       }
     }
   }, { passive: true });
@@ -993,24 +1099,48 @@ function setupGestureControls() {
         e.touches[0].clientY - e.touches[1].clientY
       );
       const ratio = dist / initialDist;
-      currentZoom = Math.min(3.5, Math.max(1.0, initialZoom * ratio));
+      currentZoom = Math.min(4.5, Math.max(1.0, initialZoom * ratio));
       updateZoomTransform();
-    } else if (e.touches.length === 1 && isPanning && currentZoom > 1.0) {
-      panX = e.touches[0].clientX - startTouchX;
-      panY = e.touches[0].clientY - startTouchY;
+    } else if (e.touches.length === 1 && isTouchPanning && currentZoom > 1.0) {
+      const dx = e.touches[0].clientX - startTouchX;
+      const dy = e.touches[0].clientY - startTouchY;
+      touchMoveDist = Math.hypot(dx, dy);
+
+      if (touchMoveDist > 6) {
+        justDragged = true;
+      }
+
+      panX = touchPanStartX + dx;
+      panY = touchPanStartY + dy;
       updateZoomTransform();
     }
   }, { passive: true });
 
   viewport.addEventListener("touchend", () => {
-    isPanning = false;
+    isTouchPanning = false;
     initialDist = 0;
+    viewport.classList.remove("is-dragging");
+    if (touchMoveDist > 6) {
+      setTimeout(() => { justDragged = false; }, 160);
+    } else {
+      justDragged = false;
+    }
     if (currentZoom <= 1.0) {
       panX = 0;
       panY = 0;
       updateZoomTransform();
     }
   }, { passive: true });
+
+  // Click on empty canvas to dismiss sheet if open
+  viewport.addEventListener("click", (e) => {
+    if (justDragged) return;
+    if (e.target === viewport || e.target === shelfImg) {
+      if (bottomSheet && bottomSheet.classList.contains("open")) {
+        closeBottomSheet();
+      }
+    }
+  });
 }
 
 // --- Touch Swipe Transitions & Bottom Sheet Dismiss (Item 1) ---

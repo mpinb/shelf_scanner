@@ -365,9 +365,21 @@ main#app-main {
   align-items: center;
   justify-content: center;
   background: #06080d;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   padding: 8px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.canvas-viewport.is-zoomed {
+  cursor: grab;
+}
+.canvas-viewport.is-dragging {
+  cursor: grabbing !important;
+}
+.canvas-viewport.is-dragging .stage {
+  transition: none !important;
 }
 
 /* --- Floating Zoom & Pan Controls --- */
@@ -771,10 +783,10 @@ polygon.book-poly.ignored {
   background: transparent;
   z-index: 60;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   transition: opacity 0.25s ease;
 }
-.sheet-backdrop.show { opacity: 1; pointer-events: all; }
+.sheet-backdrop.show { opacity: 0; pointer-events: none !important; }
 
 .bottom-sheet {
   position: fixed;
